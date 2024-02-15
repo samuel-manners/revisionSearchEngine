@@ -1,0 +1,15 @@
+App 28363 output: Server is running
+App 28363 output: Connected to the MySQL database
+App 28363 output: Provided Response: [ { UPC: null,
+App 28363 output:     name: 'Coca-Cola Can',
+App 28363 output:     description: 'Beverage can',
+App 28363 output:     is_recyclable: 1,
+App 28363 output:     packaging_material: 'Aluminum',
+App 28363 output:     brand: 'Coca-Cola' },
+App 28363 output:   { UPC: null,
+App 28363 output:     name: 'Diet Coke Can',
+App 28363 output:     description: 'Beverage Can',
+App 28363 output:     is_recyclable: 1,
+App 28363 output:     packaging_material: 'Aluminium',
+App 28363 output:     brand: 'Coca-Cola' } ]
+App 28363 output: Name variable is undefined
