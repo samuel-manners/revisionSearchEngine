@@ -1,24 +1,23 @@
 const mysql = require('mysql2/promise');
+const fs = require('fs');
 
-const pool = mysql.createPool({
-  host: 'sam141.brighton.domains',
-  user: 'sam141_recycleDroid',
-  password: '16]iyTWP=XQJ',
-  database: 'sam141_recyclingDatabase',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-});
+const config =
+{
+  host: 'revision-db.mysql.database.azure.com',
+  user: 'hqxvylbnpt',
+  password: 'Sh@dw3ll',
+  database: 'recyclingDatabase',
+  port: 3306,
+  ssl: { ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem") },
+};
 
-async function connect() {
+async function createConnection() {
   try {
-    const connection = await pool.getConnection();
-    console.log('Connected to the MySQL database');
-    return connection;
+    return mysql.createConnection(config);
   } catch (error) {
     console.error('Error connecting to the MySQL database', error);
     throw error;
   }
 }
 
-module.exports = { connect };
+module.exports = createConnection;

@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { connect } = require('./db'); // Assuming db.js is in the same directory
+const createConnection = require('./db'); 
 
 const app = express();
-const port = parseInt(process.env.PORT) || 8080;
+const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 
@@ -31,7 +31,7 @@ app.get('/recycling_database_api', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Server is running`);
+  console.log(`Server is running on port: ${port}`);
 });
 
 
@@ -43,10 +43,10 @@ const normalSearch = async (req) => {
       return null;
     }
 
-    const connection = await connect();
+    const connection = await createConnection();
     const query = "SELECT UPC, name, description, is_recyclable, packaging_material, brand FROM recyclable_household_items WHERE brand = " + brand;
     const [rows] = await connection.query(query);
-    connection.release();
+    connection.end();
 
     if (rows.length > 0) {
       return rows;
@@ -68,10 +68,10 @@ const nameSearch = async (req) => {
       return null;
     }
 
-    const connection = await connect();
+    const connection = await createConnection();
     const query = "SELECT UPC, name, description, is_recyclable, packaging_material, brand FROM recyclable_household_items WHERE name = " + name;
     const [rows] = await connection.query(query);
-    connection.release();
+    connection.end();
 
     if (rows.length > 0) {
       return rows[0];
@@ -93,10 +93,10 @@ const upcSearch = async (req) => {
       return null;
     }
 
-    const connection = await connect();
+    const connection = await createConnection();
     const query = "SELECT UPC, name, description, is_recyclable, packaging_material, brand FROM recyclable_household_items WHERE UPC = " + upc;
     const [rows] = await connection.query(query);
-    connection.release();
+    connection.end();
 
     if (rows.length > 0) {
       return rows[0];
