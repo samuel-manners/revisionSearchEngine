@@ -52,12 +52,13 @@ app.post('/cloudvisionapi', async (req, res) => {
     res.status(400).send('Request Image Invalid: ' + error.message);
   }
   const logo = await handleVisionRequest(req.body.image);
-  const response = await normalSearch(logo);
+  const logoRequest = "'%" + logo + "%'";
+  const response = await normalSearch(logoRequest);
   //TO-DO
   //Reform search code so it accepts the detail its searching for
   //Connect logo to search
   //Send Result Back
-  console.log(logo);
+  console.log(response);
 });
 
 app.listen(port, () => {
@@ -73,7 +74,9 @@ const normalSearch = async (brand) => {
     }
 
     const connection = await createConnection();
-    const query = "SELECT UPC, name, description, is_recyclable, packaging_material, brand FROM recyclable_household_items WHERE brand = " + brand;
+    //Adapted for rough search to work with AI
+    //Ref: https://www.w3schools.com/SQL/sql_like.asp
+    const query = "SELECT UPC, name, description, is_recyclable, packaging_material, brand FROM recyclable_household_items WHERE brand LIKE " + brand;
     const [rows] = await connection.query(query);
     connection.end();
 
