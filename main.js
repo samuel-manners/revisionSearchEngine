@@ -1,10 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const createConnection = require('./db'); 
-
+const createConnection = require('./db');
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 8080;
+const dotenv = require('dotenv');
+const { handleVisionRequest } = require('./AIVision.js');
+dotenv.config();
 
+
+app.use(cors());
 app.use(bodyParser.json());
 
 // Endpoint to get data based on oid
@@ -30,9 +35,33 @@ app.get('/recycling_database_api', async (req, res) => {
   }
 });
 
+// Define the route for the API
+app.post('/cloudvisionapi', async (req, res) => {
+  try {
+    // Check if req.body contains an 'image' property
+    if (!req.body || !req.body.image) {
+      throw new Error('Invalid image data provided.');
+    }
+    if (req.body.image == null) {
+      throw new Error('No image data provided');
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(400).send('Request Image Invalid: ' + error.message);
+  }
+  const logo = await handleVisionRequest(req.body.image);
+  const response = await normalSearch(logo);
+  //TO-DO
+  //Reform search code so it accepts the detail its searching for
+  //Connect logo to search
+  //Send Result Back
+  console.log(logo);
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
-});
+})
 
 
 const normalSearch = async (req) => {
