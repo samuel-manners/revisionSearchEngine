@@ -4,9 +4,7 @@ const createConnection = require('./db');
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 8080;
-const dotenv = require('dotenv');
 const { handleVisionRequest } = require('./AIVision.js');
-dotenv.config();
 
 
 app.use(cors());
@@ -18,11 +16,14 @@ app.get('/recycling_database_api', async (req, res) => {
   let searchResults = [];
   //Checks SearchType for how to handle and passes request to relevent function
   if (searchType == "'Brand'") {
-    searchResults = await normalSearch(req);
+    const brand = req.query.brand;
+    searchResults = await normalSearch(brand);
   } else if (searchType == "'Name'") {
-    searchResults = await nameSearch(req);
+    const name = req.query.name;
+    searchResults = await nameSearch(name);
   } else if (searchType == "'UPC'") {
-    searchResults = await upcSearch(req)
+    const upc = req.query.UPC;
+    searchResults = await upcSearch(upc)
   } else {
     res.status(400).json({ message: 'Bad Request - Type of Search is Invalid' })
   }
@@ -64,8 +65,7 @@ app.listen(port, () => {
 })
 
 
-const normalSearch = async (req) => {
-  const brand = req.query.brand;
+const normalSearch = async (brand) => {
   try {
     if (typeof brand === 'undefined') {
       console.log("Brand variable is undefined");
@@ -89,8 +89,7 @@ const normalSearch = async (req) => {
   }
 }
 
-const nameSearch = async (req) => {
-  const name = req.query.name;
+const nameSearch = async (name) => {
   try {
     if (typeof name === 'undefined') {
       console.log("Name variable is undefined");
@@ -114,8 +113,7 @@ const nameSearch = async (req) => {
   }
 }
 
-const upcSearch = async (req) => {
-  const upc = req.query.UPC;
+const upcSearch = async (upc) => {
   try {
     if (typeof upc === 'undefined') {
       console.log("UPC variable is undefined");
