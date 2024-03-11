@@ -54,11 +54,8 @@ app.post('/cloudvisionapi', async (req, res) => {
   const logo = await handleVisionRequest(req.body.image);
   const logoRequest = "'%" + logo + "%'";
   const response = await normalSearch(logoRequest);
-  //TO-DO
-  //Reform search code so it accepts the detail its searching for
-  //Connect logo to search
-  //Send Result Back
   console.log(response);
+  res.json(response);
 });
 
 app.listen(port, () => {
