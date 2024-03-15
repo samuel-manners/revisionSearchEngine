@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 
 // Endpoint to get data based on oid
 app.get('/recycling_database_api', async (req, res) => {
+  console.log('Get Request Recieved')
   const searchType = req.query.searchType;
   let searchResults = [];
   //Checks SearchType for how to handle and passes request to relevent function
@@ -38,6 +39,7 @@ app.get('/recycling_database_api', async (req, res) => {
 
 // Define the route for the API
 app.post('/cloudvisionapi', async (req, res) => {
+  console.log('Post Request Recieved')
   try {
     // Check if req.body contains an 'image' property
     if (!req.body || !req.body.image) {
@@ -52,9 +54,9 @@ app.post('/cloudvisionapi', async (req, res) => {
     res.status(400).send('Request Image Invalid: ' + error.message);
   }
   const logo = await handleVisionRequest(req.body.image);
-  const logoRequest = "'%" + logo + "%'";
+
+  const logoRequest = "'" + logo[0] + "'";
   const response = await normalSearch(logoRequest);
-  console.log(response);
   res.json(response);
 });
 
@@ -64,6 +66,8 @@ app.listen(port, () => {
 
 
 const normalSearch = async (brand) => {
+  console.log(brand);
+
   try {
     if (typeof brand === 'undefined') {
       console.log("Brand variable is undefined");
@@ -80,7 +84,7 @@ const normalSearch = async (brand) => {
     if (rows.length > 0) {
       return rows;
     } else {
-      console.log('Error getting Data');
+      console.log('Error getting Data for brand:' + brand);
       return null;
     }
   } catch (error) {

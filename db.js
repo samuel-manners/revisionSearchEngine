@@ -3,10 +3,10 @@ const fs = require('fs');
 
 const config =
 {
-  host: 'revision-db.mysql.database.azure.com',
-  user: 'hqxvylbnpt',
+  host: 're-vision-database-server.mysql.database.azure.com',
+  user: 'vjzezpwkxd',
   password: 'Sh@dw3ll',
-  database: 'recyclingDatabase',
+  database: 're-vision-database',
   port: 3306,
   ssl: { ca: fs.readFileSync("./DigiCertGlobalRootCA.crt.pem") },
 };

@@ -1,5 +1,6 @@
 const vision = require('@google-cloud/vision')
-const visionClient = new vision.ImageAnnotatorClient();
+
+const visionClient = new vision.ImageAnnotatorClient({ keyFilename: './re-vision-apis-key.json'});
 
 async function getImageData(base64Image) {
     const modifiedImageData = base64Image.replace('data:image/jpeg;base64,', '');
