@@ -27,7 +27,7 @@ async function searchHandler (searchType, searchParam) {
         } else{
             return cacheResults;
         }
-    } else if (searchType == "'Name'") {
+    } else if (searchType == "Name") {
         const dbResults = dbSearch('name', searchParam);
         return dbResults;
     }
@@ -72,7 +72,9 @@ async function dbSearch(searchType, searchParam){
 
         const connection = await createConnection();
         //New style search query, single function for database queries
-        const query = "SELECT name, description, is_recyclable, packaging_material, brand FROM recyclable_household_items WHERE " + searchType + " = " + searchParam;
+        //Adapted for rough search to work with AI
+        //Ref: https://www.w3schools.com/SQL/sql_like.asp
+        const query = `SELECT  name, description, is_recyclable, packaging_material, brand FROM recyclable_household_items WHERE ${searchType} LIKE '%${searchParam.replace(/'/g, "")}%'`;
         const [rows] = await connection.query(query);
         connection.end();
 
