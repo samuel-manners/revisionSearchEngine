@@ -12,13 +12,20 @@ Before you begin, ensure that you have the following software installed on your 
 
 2. **npm (Node Package Manager)**: Version 10 or higher
    - npm is bundled with Node.js. After installing Node.js, you should automatically have npm available.
-
-To verify your installations, open a terminal or command prompt and run the following commands:
+  
+   - To verify your installations, open a terminal or command prompt and run the following commands:
 
 ```bash
 node -v
 npm -v
 ```
+
+3. **MySQL Database**
+   - You will need a database to be able to receieve your recycling information from which will need to include info such as name, brand e.c.t
+   - Alter database details by altering the file db.js
+4. **Google Cloud Credentials**
+   - To run the AI vision utility, you will need to get API credentials from Googles Vision API, website: [Google Cloud Vision](https://cloud.google.com/vision?hl=en)
+   - Get API keys in JSON format and alter import in AIVision.js
 
 ## Installation
 
