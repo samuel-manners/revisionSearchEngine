@@ -1,13 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const dotenv = require('dotenv');
 const port = process.env.PORT || 8080;
 const { handleVisionRequest } = require('./AIVision.js');
 const { searchHandler } = require('./searchUtils');
 
 app.use(bodyParser.json());
-dotenv.config();
 
 //Route for standard DB search checks
 app.get('/recycling_database_api', async (req, res) => {
@@ -46,7 +44,7 @@ app.post('/cloudvisionapi', async (req, res) => {
     console.error(error);
     res.status(400).send('Request Image Invalid: ' + error.message);
   }
-  
+
   //Sends to vision function to find brand information from logo
   const logo = await handleVisionRequest(req.body.image);
   const logoRequest = "'" + logo[0] + "'";
