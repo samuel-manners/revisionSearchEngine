@@ -9,6 +9,7 @@ const { searchHandler } = require('./searchUtils');
 app.use(bodyParser.json());
 dotenv.config();
 
+//Route for standard DB search checks
 app.get('/recycling_database_api', async (req, res) => {
   console.log('Get Request Recieved');
   const searchType = req.query.searchType;
@@ -29,7 +30,7 @@ app.get('/recycling_database_api', async (req, res) => {
   }
 });
 
-// Define the route for the API
+// Route for AI Vision requests
 app.post('/cloudvisionapi', async (req, res) => {
   console.log('Post Request Recieved');
   try {
@@ -45,9 +46,11 @@ app.post('/cloudvisionapi', async (req, res) => {
     console.error(error);
     res.status(400).send('Request Image Invalid: ' + error.message);
   }
+  
+  //Sends to vision function to find brand information from logo
   const logo = await handleVisionRequest(req.body.image);
-
   const logoRequest = "'" + logo[0] + "'";
+  //Sends logo information to search handling function passing in the search its requesting and the previously discovered brand details
   const response = await searchHandler("Brand", logoRequest);
   res.json(response);
 });
