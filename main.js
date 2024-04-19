@@ -50,7 +50,11 @@ app.post('/cloudvisionapi', async (req, res) => {
   const logoRequest = "'" + logo[0] + "'";
   //Sends logo information to search handling function passing in the search its requesting and the previously discovered brand details
   const response = await searchHandler("Brand", logoRequest);
-  res.json(response);
+  if (response != null) {
+    res.json(response);
+  } else{
+    res.status(404).json({ message: 'Data not found' });
+  }
 });
 
 app.listen(port, () => {
