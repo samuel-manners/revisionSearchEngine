@@ -75,7 +75,9 @@ async function dbSearch(searchType, searchParam) {
             return null;
         }
         //Connect to database and run query, store results into array
+        console.log('Attempting to connect to DB')
         const connection = await createConnection();
+        console.log('Connection Made');
         const query = `SELECT  name, description, recycleType, brand FROM recyclable_household_items WHERE ${searchType} LIKE '%${searchParam.replace(/'/g, "")}%'`;
         const [rows] = await connection.query(query);
         connection.end();
@@ -102,5 +104,7 @@ async function dbSearch(searchType, searchParam) {
 
 // Export the methods
 module.exports = {
-    searchHandler
+    searchHandler,
+    cacheSearch,
+    dbSearch
 };
